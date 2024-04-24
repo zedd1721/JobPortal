@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const registerUser = async (req, res) => {
   try {
@@ -48,13 +49,25 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Password does not match." });
     }
 
-    res.json({ message: "Logged In" });
+    //JWT
+    const token = jwt.sign(
+      { userID: userDetails._id },
+      process.env.SECRET_KEY,
+      { expiresIn: "100h" }
+    );
+
+    res.json({ 
+      message: "Logged In",
+      token: token,
+      name: userDetails.name,
+     });
+     
   } catch (err) {
     res.status(500).json({ message: "User Does not exist." });
   }
 };
 
-module.exports = { 
-  registerUser, 
+module.exports = {
+  registerUser,
   loginUser,
 };

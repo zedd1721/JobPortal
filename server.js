@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv").config();
 const mongoose = require("mongoose");
 const authRoute = require('./routes/auth')
+const jobRoute = require('./routes/job');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/job", jobRoute);
 
 app.listen(process.env.PORT, () => {
   console.log("Server listening on port 5555");
