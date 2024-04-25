@@ -139,7 +139,8 @@ const updateJobDetailsbyId = async (req, res) => {
 
 const getAllJobs = async(req, res) => {
     try{
-        const jobList = await Job.find({});
+      const searchQuery = req.query.searchQuery || "";
+        const jobList = await Job.find({jobTitle: searchQuery});
         res.status(200).json({ jobList });
 
     }catch (error) {
